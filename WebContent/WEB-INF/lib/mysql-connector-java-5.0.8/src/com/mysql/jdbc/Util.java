@@ -24,6 +24,7 @@
  */
 package com.mysql.jdbc;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -236,6 +237,7 @@ public class Util {
 			throws Exception {
 		ObjectInputStream objIn = new ObjectInputStream(resultSet
 				.getBinaryStream(index));
+		ObjectInputFilters.enableObjectFilterIfUnprotected(objIn);
 		Object obj = objIn.readObject();
 		objIn.close();
 

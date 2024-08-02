@@ -26,6 +26,7 @@ package com.mysql.jdbc;
 
 import com.mysql.jdbc.profiler.ProfileEventSink;
 import com.mysql.jdbc.profiler.ProfilerEvent;
+import io.github.pixee.security.ObjectInputFilters;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -3630,6 +3631,7 @@ public class ResultSet implements java.sql.ResultSet {
 									data);
 							ObjectInputStream objIn = new ObjectInputStream(
 									bytesIn);
+							ObjectInputFilters.enableObjectFilterIfUnprotected(objIn);
 							obj = objIn.readObject();
 							objIn.close();
 							bytesIn.close();
@@ -4960,6 +4962,7 @@ public class ResultSet implements java.sql.ResultSet {
 										data);
 								ObjectInputStream objIn = new ObjectInputStream(
 										bytesIn);
+								ObjectInputFilters.enableObjectFilterIfUnprotected(objIn);
 								obj = objIn.readObject();
 								objIn.close();
 								bytesIn.close();
