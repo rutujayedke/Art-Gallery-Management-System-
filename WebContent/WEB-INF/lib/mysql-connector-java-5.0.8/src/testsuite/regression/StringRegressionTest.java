@@ -820,20 +820,26 @@ public class StringRegressionTest extends BaseTestCase {
 					(byte) 0x86, (byte) 0x87, (byte) 0x88, (byte) 0x89,
 					(byte) 0x8a, (byte) 0x8b, (byte) 0x8c, (byte) 0x8e },
 					"Cp1252");
-
 			System.out.println(codePage1252);
-
 			Properties props = new Properties();
 			props.setProperty("characterEncoding", "Cp1252");
 			Connection cp1252Conn = getConnectionWithProps(props);
 			createTable("testCp1252",
 					"(field1 varchar(32) CHARACTER SET latin1)");
-			cp1252Conn.createStatement().executeUpdate(
-					"INSERT INTO testCp1252 VALUES ('" + codePage1252 + "')");
+			PreparedStatement stmt = cp1252Conn.prepareStatement("INSERT INTO testCp1252 VALUES (?)");
+			stmt.setString(1, new String(new byte[] { (byte) 0x80,
+					(byte) 0x82, (byte) 0x83, (byte) 0x84, (byte) 0x85,
+					(byte) 0x86, (byte) 0x87, (byte) 0x88, (byte) 0x89,
+					(byte) 0x8a, (byte) 0x8b, (byte) 0x8c, (byte) 0x8e },
+					"Cp1252"));
+			stmt.execute(
+			);
 			this.rs = cp1252Conn.createStatement().executeQuery(
 					"SELECT field1 FROM testCp1252");
 			this.rs.next();
 			assertEquals(this.rs.getString(1), codePage1252);
+
+
 		}
 	}
 	
