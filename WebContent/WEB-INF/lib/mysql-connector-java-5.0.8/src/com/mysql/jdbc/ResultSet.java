@@ -26,6 +26,8 @@ package com.mysql.jdbc;
 
 import com.mysql.jdbc.profiler.ProfileEventSink;
 import com.mysql.jdbc.profiler.ProfilerEvent;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -4747,7 +4749,7 @@ public class ResultSet implements java.sql.ResultSet {
 		}
 
 		try {
-			return new URL(val);
+			return Urls.create(val, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		} catch (MalformedURLException mfe) {
 			throw SQLError.createSQLException(Messages
 					.getString("ResultSet.Malformed_URL____141")
@@ -6980,7 +6982,7 @@ public class ResultSet implements java.sql.ResultSet {
 		}
 
 		try {
-			return new URL(val);
+			return Urls.create(val, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		} catch (MalformedURLException mfe) {
 			throw SQLError.createSQLException(Messages
 					.getString("ResultSet.Malformed_URL____104")
@@ -6999,7 +7001,7 @@ public class ResultSet implements java.sql.ResultSet {
 		}
 
 		try {
-			return new URL(val);
+			return Urls.create(val, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 		} catch (MalformedURLException mfe) {
 			throw SQLError.createSQLException(Messages
 					.getString("ResultSet.Malformed_URL____107")
