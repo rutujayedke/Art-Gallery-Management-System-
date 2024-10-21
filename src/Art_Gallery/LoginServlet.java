@@ -34,7 +34,9 @@ public class LoginServlet extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if(session!=null)
-        session.setAttribute("l_id", n);
+        {
+            session.setAttribute("l_id", n);
+        }
         
         Connection conn = null;
         Statement st = null;
