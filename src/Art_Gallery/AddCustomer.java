@@ -3,6 +3,7 @@ package Art_Gallery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.sql.PreparedStatement;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,22 +48,23 @@ public class AddCustomer extends HttpServlet {
       
       System.out.println(title);
       //String[] tokens = P_name.split(":\\ ");
-      String query = "select * from painting where title='" + title + "' ";
+      String query = "select * from painting where title=? ";
     
       Class.forName(driver).newInstance();  
 
      conn = DriverManager.getConnection(url+dbName,"root", "rutuja8079");
-      Statement st = conn.createStatement();
-      ResultSet rs = st.executeQuery(query);
+      PreparedStatement st = conn.prepareStatement(query);
+      st.setString(1, request.getParameter("title"));
+      ResultSet rs = st.execute();
       rs.next();
-      String imageurl = rs.getString("url");
       
-      PreparedStatement pst =(PreparedStatement) conn.prepareStatement("insert into customer (c_id, c_name, address, phone) values(?,?,?,?)");//try2 is the name of the table  
+      String imageurl = rs.getString("url");
+    PreparedStatement pst =(PreparedStatement) conn.prepareStatement("insert into customer (c_id, c_name, address, phone) values(?,?,?,?)");
     PreparedStatement pst1 =(PreparedStatement) conn.prepareStatement("insert into bought_by(c_id, url, cost ) values(?, ?, ?)");
     PreparedStatement pst2 =(PreparedStatement) conn.prepareStatement("delete from painting where url = ? ");
-    System.out.println("helloo hii");
-      pst.setString(1,c_id);  
-      pst.setString(2,c_name);        
+      System.out.println("helloo hii");  
+      pst.setString(1,c_id);        
+      pst.setString(2,c_name);
       pst.setString(3,address);
       pst.setString(4,pno);
       pst1.setString(1,c_id);
@@ -74,9 +76,9 @@ public class AddCustomer extends HttpServlet {
       pst1.executeUpdate();
       System.out.println("helloo hii2");
       pst2.executeUpdate();
+      
       System.out.println("helloo hii3");
-      //conn.commit(); 
-      String msg=" ";
+      String msg=" ";  
       if(i!=0){  
         msg="Record has been inserted";
         pw.println("<font size='6' color=blue>" + msg + "</font>"); 
@@ -88,7 +90,7 @@ public class AddCustomer extends HttpServlet {
       else{  
         msg="failed to insert the data";
         pw.println("<font size='6' color=blue>" + msg + "</font>");
-       }  
+       }
       pst.close();
     }  
     catch (Exception e){  
