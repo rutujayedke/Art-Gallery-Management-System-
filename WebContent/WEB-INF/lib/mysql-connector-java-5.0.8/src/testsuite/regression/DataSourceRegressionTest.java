@@ -24,6 +24,7 @@
  */
 package testsuite.regression;
 
+import io.github.pixee.security.ObjectInputFilters;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -307,7 +308,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
 		objOut.flush();
 		
 		ObjectInputStream objIn = new ObjectInputStream(new ByteArrayInputStream(bOut.toByteArray()));
-		
+		ObjectInputFilters.enableObjectFilterIfUnprotected(objIn);
+
 		MysqlDataSource thawedDs = (MysqlDataSource)objIn.readObject();
 		
 		assertEquals("convertToNull", thawedDs.getZeroDateTimeBehavior());
