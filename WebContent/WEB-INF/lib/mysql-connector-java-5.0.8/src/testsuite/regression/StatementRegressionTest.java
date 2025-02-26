@@ -36,6 +36,7 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Files;
 import java.sql.BatchUpdateException;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -2045,7 +2046,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
 		try {
 			createTable(tableName, "(field1 varchar(4))");
-			File tempFile = File.createTempFile("mysql-test", ".txt");
+			File tempFile = Files.createTempFile("mysql-test", ".txt").toFile();
 			tempFile.deleteOnExit();
 
 			FileOutputStream fOut = new FileOutputStream(tempFile);
@@ -2463,7 +2464,7 @@ public class StatementRegressionTest extends BaseTestCase {
 			this.stmt
 					.executeUpdate("CREATE TABLE loadDataRegress (field1 int, field2 int)");
 
-			File tempFile = File.createTempFile("mysql", ".txt");
+			File tempFile = Files.createTempFile("mysql", ".txt").toFile();
 
 			// tempFile.deleteOnExit();
 			System.out.println(tempFile);

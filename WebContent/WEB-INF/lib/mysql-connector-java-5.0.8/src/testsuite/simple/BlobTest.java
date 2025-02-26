@@ -24,6 +24,7 @@
  */
 package testsuite.simple;
 
+import java.nio.file.Files;
 import testsuite.BaseTestCase;
 
 import java.io.BufferedInputStream;
@@ -264,7 +265,7 @@ public class BlobTest extends BaseTestCase {
 			testBlobFile.delete();
 		}
 
-		testBlobFile = File.createTempFile("testblob", ".dat");
+		testBlobFile = Files.createTempFile("testblob", ".dat").toFile();
 		testBlobFile.deleteOnExit();
 
 		BufferedOutputStream bOut = new BufferedOutputStream(

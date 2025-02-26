@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -398,7 +399,7 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	protected File newTempBinaryFile(String name, long size) throws IOException {
-		File tempFile = File.createTempFile(name, "tmp");
+		File tempFile = Files.createTempFile(name, "tmp").toFile();
 		tempFile.deleteOnExit();
 		
 		cleanupTempFiles(tempFile, name);
