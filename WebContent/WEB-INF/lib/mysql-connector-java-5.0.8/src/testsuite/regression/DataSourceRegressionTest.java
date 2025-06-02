@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -350,7 +351,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
 	 *             if an error occurs
 	 */
 	private void createJNDIContext() throws Exception {
-		this.tempDir = File.createTempFile("jnditest", null);
+		this.tempDir = Files.createTempFile("jnditest", null).toFile();
 		this.tempDir.delete();
 		this.tempDir.mkdir();
 		this.tempDir.deleteOnExit();

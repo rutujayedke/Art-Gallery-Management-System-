@@ -24,6 +24,7 @@
  */
 package testsuite.simple;
 
+import java.nio.file.Files;
 import testsuite.BaseTestCase;
 
 import java.io.File;
@@ -230,7 +231,7 @@ public class DataSourceTest extends BaseTestCase {
 	 *             if an error occurs
 	 */
 	private void registerDataSource() throws Exception {
-		this.tempDir = File.createTempFile("jnditest", null);
+		this.tempDir = Files.createTempFile("jnditest", null).toFile();
 		this.tempDir.delete();
 		this.tempDir.mkdir();
 		this.tempDir.deleteOnExit();
