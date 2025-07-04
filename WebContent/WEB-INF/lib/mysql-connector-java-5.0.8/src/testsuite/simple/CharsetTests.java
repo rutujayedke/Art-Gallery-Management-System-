@@ -23,6 +23,7 @@
 package testsuite.simple;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,8 +79,12 @@ public class CharsetTests extends BaseTestCase {
 				stmt2.executeUpdate("DROP TABLE IF EXISTS t_eucjpms");
 				createTable("t_eucjpms", "(c1 char(1))"
 						+ " default character set = eucjpms");
-				stmt2.executeUpdate("INSERT INTO t_eucjpms VALUES ('"
-						+ necExtendedCharString + "')");
+				stmt2.close();
+				PreparedStatement stmt = conn2.prepareStatement("INSERT INTO t_eucjpms VALUES (?)");
+				stmt.setString(1, String.valueOf(necExtendedChar));
+				stmt.executeUpdate();
+				stmt2 = stmt;
+
 				this.rs = stmt2.executeQuery("SELECT c1 FROM t_eucjpms");
 				this.rs.next();
 				assertEquals(necExtendedCharString, this.rs.getString("c1"));
@@ -95,7 +100,6 @@ public class CharsetTests extends BaseTestCase {
 				this.rs = stmt2.executeQuery("SELECT c1 FROM t_eucjpms");
 				this.rs.next();
 				assertEquals(necExtendedCharString, rs.getString("c1"));
-	
 				stmt2.executeUpdate("DROP TABLE t_eucjpms");
 				this.rs.close();
 				stmt2.close();
